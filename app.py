@@ -14,13 +14,19 @@ base_url = 'http://api.exchangerate.host/convert?access_key='
 @app.route('/')
 def display_form():
     '''displays form for user input'''
+    session.pop('data', None)
+    session.pop('result', None)
 
-    return render_template('fx_converter.html')
+
+
+
+    return render_template('fx_input.html')
 
 
 @app.route('/get_input', methods=['GET', 'POST'])
 def get_user_input():
     '''retrieves user input and stores in Session'''
+
     data = {
         'from_currency': request.form.get('currency_1'),
         'to_currency': request.form.get('currency_2'),
@@ -55,16 +61,10 @@ def show_results():
     '''displays result of currency conversion and adds currency symbol '''
 
     symbol = c.get_symbol(session['data']['to_currency'].upper())
-
-    timestamp = session['result']["info"]["timestamp"]
-    human_readable_time = datetime.utcfromtimestamp(
-            timestamp).strftime('%Y-%m-%d %H:%M:%S')
-    print(f'timestamp of transaction : {human_readable_time}')
-    return render_template('fx_converter.html',symbol=symbol)
+    exchange=str(round(session['result']['result'],2))
 
 
 
-@app.route('/clear_session', methods=['GET'])
-def clear_session():
-    session.clear()
-    return redirect('/')
+
+    return render_template('fx_output.html',symbol=symbol,exchange=exchange)
+
