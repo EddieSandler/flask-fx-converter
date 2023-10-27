@@ -40,20 +40,23 @@ def get_user_input():
 @app.route('/make_api_call/', methods=['GET'])
 def fx_conversion():
     '''calls api and returns results which is saved in session'''
-    amount = session['data']['amount']
-    from_currency = session['data']['from_currency']
-    to_currency = session['data']['to_currency']
+    if 'data' in session and 'result' in session and 'result' in session['result']:
+        amount = session['data']['amount']
+        from_currency = session['data']['from_currency']
+        to_currency = session['data']['to_currency']
+    else:
+        return 'error- That is some baaad input'
+
     url = f'{base_url}{access_key}&from={from_currency}&to={to_currency}&amount={amount}&format=1'
 
-    try:
-        response = requests.get(url=url)
-    #needs to handle KeyError
-        if response.status_code == 200:
-            result = response.json()
-            session['result'] = result
-            return redirect('/render_results/')
-    except KeyError as e:
-        return f'{e} error- That is some baaad input'
+
+    response = requests.get(url=url)
+    
+    if response.status_code == 200:
+        result = response.json()
+        session['result'] = result
+        return redirect('/render_results/')
+
 
 
 @app.route('/render_results/', methods=['GET', 'POST'])
