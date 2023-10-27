@@ -1,6 +1,6 @@
 from flask import Flask, request, render_template, redirect, session
 import requests
-from datetime import datetime
+
 from forex_python.converter import CurrencyCodes
 
 
@@ -14,8 +14,7 @@ base_url = 'http://api.exchangerate.host/convert?access_key='
 @app.route('/')
 def display_form():
     '''displays form for user input'''
-    session.pop('data', None)
-    session.pop('result', None)
+
 
 
 
@@ -46,14 +45,15 @@ def fx_conversion():
     to_currency = session['data']['to_currency']
     url = f'{base_url}{access_key}&from={from_currency}&to={to_currency}&amount={amount}&format=1'
 
-    response = requests.get(url=url)
+    try:
+        response = requests.get(url=url)
     #needs to handle KeyError
-    if response.status_code == 200:
-        result = response.json()
-        session['result'] = result
-        return redirect('/render_results/')
-    else:
-        return 'error- currency does not exist'
+        if response.status_code == 200:
+            result = response.json()
+            session['result'] = result
+            return redirect('/render_results/')
+    except KeyError as e:
+        return f'{e} error- That is some baaad input'
 
 
 @app.route('/render_results/', methods=['GET', 'POST'])
