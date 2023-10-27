@@ -56,17 +56,20 @@ def fx_conversion():
         result = response.json()
         session['result'] = result
         return redirect('/render_results/')
-    else:
-        return 'error fetching data'
-
 
 
 @app.route('/render_results/', methods=['GET', 'POST'])
 def show_results():
     '''displays result of currency conversion and adds currency symbol '''
-
+    result = session.get('result')
     symbol = c.get_symbol(session['data']['to_currency'].upper())
-    exchange=str(round(session['result']['result'],2))
+
+    try:
+        if result:
+            exchange=str(round(session['result']['result'],2))
+    except KeyError:
+
+        return render_template('fx_input.html')
 
 
 
