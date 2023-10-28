@@ -5,18 +5,28 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <h1>{% block title %}Currency Converter{%endblock %}</h1>
 </head>
+<body>
+  {% block content %}
+  <main id="content">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    <section class="messages">
+      {% for category,msg in messages %}
+      <p class="{{category}}">{{msg}}</p>
+      {% endfor  %}
+    </section>
+    {% endif %}
+    {% endwith %}
+   
+  </main>
 
-  {% block content %}{% endblock %}
 
-  {% with messages = get_flashed_messages() %}
-  {% if messages %}
-      <ul class="flash-messages">
-          {% for message in messages %}
-              <li>{{ message }}</li>
-          {% endfor %}
-      </ul>
-  {% endif %}
-{% endwith %}
+  {% endblock %}
+
+
+  </body>
+</html>
+
 
 
 

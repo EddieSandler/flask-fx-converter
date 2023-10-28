@@ -11,7 +11,7 @@
         placeholder="enter 3 letter currency code (i.e.EUR)">
     </p>
     <p><label for name="amount">Amount </label>
-      <input type="number" step='any' action="#" id="currency_amount" name="amount" required
+      <input type="number" min="0" step='any' action="#" id="currency_amount" name="amount" required
         placeholder="enter a number">
     </p>
 
@@ -20,6 +20,18 @@
 
 
   </form>
+  <main id="content">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    <section class="messages">
+      {% for category,msg in messages %}
+      <p class="{{category}}">{{msg}}</p>
+      {% endfor  %}
+    </section>
+    {% endif %}
+    {% endwith %}
+   
+  </main>
   {% endblock %}
 </body>
 

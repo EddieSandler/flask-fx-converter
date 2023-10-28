@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, redirect, session
+from flask import Flask, request, render_template, redirect, session,flash
 import requests
 
 from forex_python.converter import CurrencyCodes
@@ -68,7 +68,7 @@ def show_results():
         if result:
             exchange=str(round(session['result']['result'],2))
     except KeyError:
-
+        flash('invalid currency code: please re-enter','error')
         return render_template('fx_input.html')
 
 
