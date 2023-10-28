@@ -14,11 +14,6 @@ base_url = 'http://api.exchangerate.host/convert?access_key='
 @app.route('/')
 def display_form():
     '''displays form for user input'''
-
-
-
-
-
     return render_template('fx_input.html')
 
 
@@ -33,7 +28,6 @@ def get_user_input():
         'format': '1'
     }
     session['data'] = data
-
     return redirect('/make_api_call/')
 
 
@@ -48,8 +42,6 @@ def fx_conversion():
         return 'incomplete data'
 
     url = f'{base_url}{access_key}&from={from_currency}&to={to_currency}&amount={amount}&format=1'
-
-
     response = requests.get(url=url)
 
     if response.status_code == 200:
@@ -70,9 +62,6 @@ def show_results():
     except KeyError:
         flash('invalid currency code: please re-enter','error')
         return render_template('fx_input.html')
-
-
-
 
     return render_template('fx_output.html',symbol=symbol,exchange=exchange)
 
