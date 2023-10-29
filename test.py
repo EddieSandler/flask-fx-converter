@@ -12,4 +12,5 @@ class FlaskTests(TestCase):
             self.assertEqual("success","true")
 
             return res
+        
 

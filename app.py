@@ -1,14 +1,8 @@
-from flask import Flask, request, render_template, redirect, session,flash
-import requests
-
-from forex_python.converter import CurrencyCodes
-
+from flask import Flask, request, render_template, redirect, session, flash
+from currency_converter import make_api_call, get_currency_symbol,display_result_page
 
 app = Flask(__name__)
 app.secret_key = 'moresecrets'
-c = CurrencyCodes()
-access_key = '7142dec52324fdfeab97629c473f72d0'
-base_url = 'http://api.exchangerate.host/convert?access_key='
 
 
 @app.route('/')
@@ -35,33 +29,23 @@ def get_user_input():
 def fx_conversion():
     '''calls api and returns results which is saved in session'''
     if 'data' in session:
-        amount = session['data']['amount']
-        from_currency = session['data']['from_currency']
-        to_currency = session['data']['to_currency']
+        data=session['data']
+        amount = data.get('amount')
+        from_currency = data.get('from_currency')
+        to_currency = data.get('to_currency')
     if not all((amount,from_currency, to_currency)):
         return 'incomplete data'
 
-    url = f'{base_url}{access_key}&from={from_currency}&to={to_currency}&amount={amount}&format=1'
-    response = requests.get(url=url)
-
-    if response.status_code == 200:
-        result = response.json()
+    result=make_api_call(amount,from_currency,to_currency)
+    if result:
         session['result'] = result
         return redirect('/render_results/')
+    else:
+        return 'API call failed'
 
 
 @app.route('/render_results/', methods=['GET', 'POST'])
 def show_results():
     '''displays result of currency conversion and adds currency symbol '''
-    result = session.get('result')
-    symbol = c.get_symbol(session['data']['to_currency'].upper())
-
-    try:
-        if result:
-            exchange=str(round(session['result']['result'],2))
-    except KeyError:
-        flash('invalid currency code: please re-enter','error')
-        return render_template('fx_input.html')
-
-    return render_template('fx_output.html',symbol=symbol,exchange=exchange)
+    return display_result_page(session)
 
