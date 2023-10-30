@@ -34,8 +34,6 @@ def fx_conversion():
     to_currency =response.get('to_currency')
     result=make_api_call(amount,from_currency,to_currency)
     status=result['success']
-
-
     if status is False:
         flash(f"error-{result['error']['type']}")
         return redirect('/')

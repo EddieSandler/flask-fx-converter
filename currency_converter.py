@@ -1,4 +1,3 @@
-from flask import flash,redirect
 import requests
 from forex_python.converter import CurrencyCodes
 
@@ -13,12 +12,6 @@ def make_api_call(amount, from_currency, to_currency):
     result = response.json()
     return result
 
-def check_api_status(res,status):
-    if status is False:
-        flash(f"error-{result['error']['type']}")
-        return redirect('/')
-    # return result
-    # return 'all good'
 
 
 
