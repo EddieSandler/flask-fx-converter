@@ -1,5 +1,6 @@
 from unittest import TestCase
 import requests
+from flask import session
 from app import app
 from currency_converter import make_api_call, get_currency_symbol
 
@@ -26,14 +27,21 @@ class FLaskTests(TestCase):
         symbol = get_currency_symbol('usd')
         self.assertEqual(symbol, '$')
 
+    def test_show_results(self):
+        with app.test_request_context('/render_results/'):
+            with app.test_client() as client:
+                # Simulate session data
+                session['result'] = {
+                    'query': {'to': 'USD'},  # Simulate required session data
+                    'result': 100.12345  # Simulate the result value
+                }
 
-    # def test_show_results(self):
-    #     with app.test_client() as client:
-    #         response = client.get('/render_results')
-    #         assert response.status_code == 200
+                # Simulate the symbol and amount values instead of calling the functions
+                with client.session_transaction() as sess:
+                    sess['result'] = session['result']
+                response = client.get('/render_results/')
 
-
-
+                self.assertEqual(response.status_code, 200)
 
 
 
