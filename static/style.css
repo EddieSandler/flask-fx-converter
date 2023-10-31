@@ -1,0 +1,6 @@
+.messages {
+  border:1px ;
+  background-color: rgba(255,0,0);
+  font-weight: bold;
+  font-family: Arial, Helvetica, sans-serif;
+}

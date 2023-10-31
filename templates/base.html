@@ -3,7 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <h1><h1>Currency Converter</h1>
+  <link rel="stylesheet" type="text/css" href="/static/style.css">
+
+  <h1>Currency Converter</h1>
 </head>
 <body>
   <form method="POST" action="/get_input">
@@ -28,7 +30,7 @@
     {% if messages %}
     <section class="messages">
       {% for category,msg in messages %}
-      <p class="{{category}}">{{msg}}</p>
+     <span><p class="{{category}}">{{msg}}</p></span>
       {% endfor  %}
     </section>
     {% endif %}
