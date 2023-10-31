@@ -3,10 +3,26 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <h1>{% block title %}Currency Converter{%endblock %}</h1>
+  <h1><h1>Currency Converter</h1>
 </head>
 <body>
+  <form method="POST" action="/get_input">
+    <p><label for name="converting-from">Converting from </label>
+      <input type="text" action="#" id="currency_1" name="currency_1" required maxlength="3" pattern="[A-Za-z ]+"
+        placeholder="enter 3 letter currency code (i.e USD)">
+    </p>
+    <p><label for name="converting-to">Converting to </label>
+      <input type="text" action="#" id="currency_2" name="currency_2" required maxlength="3" pattern="[A-Za-z ]+"
+        placeholder="enter 3 letter currency code (i.e.EUR)">
+    </p>
+    <p><label for name="amount" min="0">Amount </label>
+      <input type="number" step='any' action="#" id="currency_amount" name="amount" required
+        placeholder="enter a number">
+    </p>
+
   {% block content %}
+  {% endblock %}
+
   <main id="content">
     {% with messages = get_flashed_messages(with_categories=true) %}
     {% if messages %}
@@ -17,12 +33,8 @@
     </section>
     {% endif %}
     {% endwith %}
-   
+
   </main>
-
-
-  {% endblock %}
-
 
   </body>
 </html>
