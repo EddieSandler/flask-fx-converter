@@ -44,6 +44,7 @@ def fx_conversion():
 
 @app.route('/render_results/', methods=['GET', 'POST'])
 def show_results():
+    '''gets the currency symbol and displayes result in template'''
     symbol=get_currency_symbol(session['result']['query']['to'])
     amount=str(round(session['result']['result'],2))
 
@@ -51,22 +52,3 @@ def show_results():
 
 
 
-
-
-
-#  {
-#   "info": {
-#     "quote": 149.058013,
-#     "timestamp": 1698693424
-#   },
-#   "privacy": "https://currencylayer.com/privacy",
-#   "query": {
-#     "amount": 100,
-#     "from": "USD",
-#     "to": "JPY"
-#   },
-#   "result": 14905.8013,
-#   "success": true,
-#   "terms": "https://currencylayer.com/terms"
-
-#  }
