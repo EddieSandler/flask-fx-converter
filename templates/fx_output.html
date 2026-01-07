@@ -1,9 +1,39 @@
-{% extends 'base.html'%}
-{%block content %}
+{% extends "base.html" %}
+{% block title %}Result • FX Calculator{% endblock %}
 
+{% block content %}
+<section class="grid">
+  <div>
+    <h1 class="h1">Conversion <span class="gradient">complete.</span></h1>
+    <p class="lead">
+      Here’s your converted amount. Want another? Hit “New conversion.”
+    </p>
 
-<h2> the result is: {{ amount }} {{symbol}}</h2>
+    <div style="margin-top:16px;">
+      <a class="btnSecondary" href="{{ url_for('display_form') }}">← New conversion</a>
+    </div>
+  </div>
 
-<input type="reset" class="button" onclick="location.href='/';"></button>
+  <div class="card">
+    <div class="cardInner">
+      <div class="row">
+        <div>
+          <h2 class="cardTitle">Result</h2>
+          <p class="cardSub">Rounded to 2 decimals</p>
+        </div>
+        <span class="pill">OK</span>
+      </div>
 
-{%endblock %}
+      <div class="resultBox">
+        <div class="resultLabel">Converted amount</div>
+        <div class="resultValue">{{ amount }} <span style="opacity:.75;">{{ symbol }}</span></div>
+      </div>
+
+      <div class="actions">
+        <a class="btnPrimary" href="{{ url_for('display_form') }}">Convert again →</a>
+        <button class="btnSecondary" type="button" onclick="window.print()">Print / Save PDF</button>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

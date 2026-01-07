@@ -1,6 +1,60 @@
-{% extends 'base.html'%}
-  {% block content %}
+{% extends "base.html" %}
+{% block title %}FX Calculator{% endblock %}
 
-     <p><button>convert</button></p>
+{% block content %}
+<section class="grid">
+  <div>
+    <h1 class="h1">Convert currencies <span class="gradient">instantly.</span></h1>
+    <p class="lead">
+      Enter two 3-letter currency codes and an amount. Clean inputs, clean output.
+    </p>
 
-  {% endblock %}
+    <div class="badges">
+      <span class="badge">USD</span>
+      <span class="badge">EUR</span>
+      <span class="badge">GBP</span>
+      <span class="badge">JPY</span>
+      <span class="badge">CAD</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="cardInner">
+      <div class="row">
+        <div>
+          <h2 class="cardTitle">FX Converter</h2>
+          <p class="cardSub">3-letter codes • numbers only • fast results</p>
+        </div>
+        <span class="pill">LIVE</span>
+      </div>
+
+      <form class="form" method="POST" action="{{ url_for('get_user_input') }}">
+        <div class="twoCol">
+          <div>
+            <label class="label" for="currency_1">From</label>
+            <input class="input" id="currency_1" name="currency_1" maxlength="3" required
+              placeholder="USD" autocomplete="off" />
+          </div>
+
+          <div>
+            <label class="label" for="currency_2">To</label>
+            <input class="input" id="currency_2" name="currency_2" maxlength="3" required
+              placeholder="EUR" autocomplete="off" />
+          </div>
+        </div>
+
+        <div>
+          <label class="label" for="amount">Amount</label>
+          <input class="input" id="amount" name="amount" required
+            placeholder="100" inputmode="decimal" autocomplete="off" />
+        </div>
+
+        <div class="actions">
+          <button class="btnPrimary" type="submit">Convert →</button>
+          <a class="btnSecondary" href="{{ url_for('display_form') }}">Reset</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+{% endblock %}
